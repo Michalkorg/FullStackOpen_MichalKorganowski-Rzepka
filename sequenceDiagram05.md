@@ -2,7 +2,7 @@ sequenceDiagram
     participant browser
     participant server
 
-    browser->>server: https://studies.cs.helsinki.fi/exampleapp/spa (HTML)
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa (HTML)
     activate server
     server-->>browser: HTML document
     deactivate server
