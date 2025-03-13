@@ -9,8 +9,8 @@ const Total = ({ parts }) => (
       total of {parts.map((mp) => mp.exercises).reduce((suma, exercises) => suma + exercises)}{' '}
       exercises
     </b>
-    {/*map pobiera wartosc exercises
-    suma kursow */}
+    {/*map pobiera wszystkie wartosci exercises
+     (w tabele) */}
   </p>
 );
 const Part = ({ name, exercises }) => (
@@ -19,13 +19,15 @@ const Part = ({ name, exercises }) => (
   </p>
 );
 
+{/*nadanie odpowiedniego name i exercise*/}
 const Content = ({ parts }) => (
   <>
-    {parts.map((p, i) => (
-      <Part key={i} name={p.name} exercises={p.exercises} />
+    {parts.map((par, index) => (
+      <Part key={index} name={par.name} exercises={par.exercises} />
     ))}
   </>
 );
+
 const Course = ({ course }) => (
   <div>
     <Header course={course.name} />
@@ -33,6 +35,7 @@ const Course = ({ course }) => (
     <Total parts={course.parts} />
   </div>
 );
+{/*przekazanie course jako wlasciwosc*/}
 const Courses = ({ courses }) => (
   <div>
     {courses.map((course) => (
