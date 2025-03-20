@@ -11,8 +11,10 @@ const App = () => {
   const [message, setMessage] = useState();
 
   useEffect(() => {
-    Persons.getAll().then((initalPersons) => {
-      setPersons(initalPersons);
+    Persons.
+    getAll()
+    .then((response) => {
+      setPersons(response.data);
     });
   }, []);
 
@@ -40,55 +42,43 @@ const App = () => {
   const refreshInputs = () => {
     setNewName('');
     setNewNumber('');
-  };
-
-  
-      Persons.update(dup.id, { ...dup, number: newNumber })
+  }; 
+ 
+     Persons
+      .update(dup.id, { ...dup, number: newNumber })
         .then((r) => {
           setPersons(persons.map((p) => (p.id !== dup.id ? p : r)));
-          messageHandler(`Updated ${r.name}`, 'success');
+          messageHandler(`Update ${r.name}`, 'success');
           refreshInputs();
         })
-        .catch((err) => {
-          messageHandler(
-            `information of ${newName} has already been removed from server`,
-            'error'
-          );
-          refreshInputs();
-          setPersons(persons.filter((p) => p.id !== dup.id));
-        });
+        
   };
+  
+ 
+      
   const addPerson = (e) => {
     e.preventDefault();
-    const dup = persons.filter((p) => p.name === newName)[0];
-    if (dup) {
-      duplicate(dup);
-    } else {
       Persons.create({ name: newName, number: newNumber }).then((r) => {
         setPersons(persons.concat(r));
         messageHandler(`Added ${r.name}`, 'success');
         refreshInputs();
       });
     }
-  };
+  
   const deletePerson = (id) => {
-    window.confirm(`Delete ${persons.find((p) => p.id === id).name}?`) &&
+    window.confirm(`Delete ${persons.find((p) => p.id === id.name)}?`) &&
       Persons.deleteAxios(id)
         .then((r) => {
           setPersons(persons.filter((p) => p.id !== id));
-          messageHandler(`Deleted the user successfully`, 'success');
+          messageHandler(`Deleted user-successfull`, 'success');
         })
-        .catch((err) => {
-          messageHandler(`The user already has been deleted`, 'error');
-          setPersons(persons.filter((p) => p.id !== id));
-        });
-  };
+      }
+      
   return (
     <div>
       <h2>Phonebook</h2>
       <Notification message={message} />
       <Form {...{ addPerson, filtered, handleChange, newName, newNumber }} />
-      {/* <p>debug:{newName}</p> */}
       <Numbers {...{ persons, filtered, deletePerson }} />
     </div>
   );
